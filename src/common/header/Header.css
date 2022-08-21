@@ -1,0 +1,29 @@
+.movieAppheader{
+    background: #222;
+    height: 36px;
+    padding: 8px 32px 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.applogoImg{
+    height: 35px;
+    background: #ff7f7f;
+    transform: rotateY(45deg);
+	animation: logoAnimation 8s linear infinite;
+}
+
+@keyframes logoAnimation {
+	from {transform: rotateY(45deg);}
+	to {transform: rotateY(180deg);}
+}
+
+.bookshow{
+    margin-right: 20px !important;
+}
+
+.logoin-form,
+.registration-form{
+    text-align: center;
+}

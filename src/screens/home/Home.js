@@ -1,9 +1,12 @@
 import React from 'react';
+import Header from '../../common/header/Header';
 
 
-export default function Home() {
+export default function Home(props) {
     return (
-       <div></div>
+       <div>
+         <Header baseUrl={props.baseUrl} />
+       </div>
     )
   }
   

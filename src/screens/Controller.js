@@ -9,6 +9,7 @@ const Controller = () => {
   const baseUrl = "/api/v1/";
 
   return (
+    <div>
     <Router>
       <div className="main-container">
         <Route
@@ -30,6 +31,7 @@ const Controller = () => {
         />
       </div>
     </Router>
+    </div>
   );
 };
 
