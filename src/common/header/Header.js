@@ -10,7 +10,7 @@ import {ValidatorForm,TextValidator} from 'react-material-ui-form-validator'
 
 
  
-export default function Header({baseUrl}) {
+export default function Header({baseUrl, buutonSingle}) {
   const [modalstate, setmodalstate] = useState(false);
   const [isLoggedIn,setisLoggedIn] = useState(false);
   const [tabstate, settabstate] = useState(0);
@@ -143,13 +143,29 @@ export default function Header({baseUrl}) {
                {
                isLoggedIn ? (
                <div>
+                { buutonSingle ? (
+                <div>          
+               <Button variant="contained" color="default" className='loginlogoutbtn'  onClick={logouthandaler}>LOGOUT</Button>
+               </div>) : (  
+                  <div>          
                <Button variant="contained" color="primary" name="BOOK SHOW" className='bookshow' onClick={renderbookshow}>Book Show</Button>
                <Button variant="contained" color="default" className='loginlogoutbtn'  onClick={logouthandaler}>LOGOUT</Button>
                </div>
+               )}
+   
+               </div>
                ) : (
                 <div>
+                   { buutonSingle ? (  
+                    <div>          
+             <Button variant="contained" color="default" className='loginlogoutbtn'  onClick={modalHandaler}>LOGIN</Button>
+              </div>
+               ) :(  
+                <div>    
               <Button variant="contained" color="primary" name="BOOK SHOW" className='bookshow' onClick={modalHandaler}>Book Show</Button>
-              <Button variant="contained" color="default" className='loginlogoutbtn'  onClick={modalHandaler}>LOGIN</Button> 
+              <Button variant="contained" color="default" className='loginlogoutbtn'  onClick={modalHandaler}>LOGIN</Button>
+              </div>
+              )} 
               </div>
               ) 
               }

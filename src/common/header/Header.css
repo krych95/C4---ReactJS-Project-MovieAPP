@@ -1,5 +1,5 @@
 .movieAppheader{
-    background: #222;
+    background-color: #222;
     height: 36px;
     padding: 8px 32px 8px 16px;
     display: flex;
@@ -9,7 +9,7 @@
 
 .applogoImg{
     height: 35px;
-    background: #ff7f7f;
+    background-color: #ff7f7f;
     transform: rotateY(45deg);
 	animation: logoAnimation 8s linear infinite;
 }

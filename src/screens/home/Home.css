@@ -1,0 +1,40 @@
+.upcomimgMovies .headerBox{
+    background-color: #ff9999;
+    padding: 8px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.upcomimgMovies .container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    overflow: hidden;
+    background-color: #fff;
+}
+.upcomimgMovies .gridlist{
+    flex-wrap: nowrap;
+    transform: translateZ(0);
+}
+.upcomimgMovies .MuiGridListTile-root{
+    height: 250px !important;
+    overflow: hidden;
+}
+
+.upcomimgMovies .title_bar{
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%);
+}
+
+.upcomimgMovies .gridlist::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+.upcomimgMovies .gridlist::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    border-radius: 10px;
+}
+ 
+.upcomimgMovies .gridlist::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 100px #808080; 
+}
