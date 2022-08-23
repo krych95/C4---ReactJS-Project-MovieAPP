@@ -6,17 +6,40 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import {ValidatorForm,TextValidator} from 'react-material-ui-form-validator'
 import { useHistory } from "react-router-dom";
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
- 
 export default function Header(props) {
 
   const history = useHistory();
-
   const [modalstate, setmodalstate] = useState(false);
   const [isLoggedIn,setisLoggedIn] = useState(false);
   const [tabstate, settabstate] = useState(0);
+  // login input state
+  const [loginemail, setloginemail] = useState("");
+  const [loginpass, setloginpass] = useState("");
+
+  // reginput stae
+  const [userfname, setuserfname] = useState("");
+  const [userlname, setuserlname] = useState("");
+  const [useremail, setuseremail] = useState("");
+  const [userpsw, setuserpsw] = useState("");
+  const [userph, setuserph] = useState("");
+
+  //login validation state
+  const [reqloginemail, setreqloginemail] = useState("dispNone");
+  const [reqloginpass, setreqloginpass] = useState("dispNone");
+
+// registration form validation state
+  const [requserfname, setrequserfname] = useState("dispNone");
+  const [requserlname, setrequserlname] = useState("dispNone");
+  const [requseremail, setrequseremail] = useState("dispNone");
+  const [requserpsw, setrequserpsw] = useState("dispNone");
+  const [requserph, setrequserph] = useState("dispNone");
 
   const tabhandeler = (event, newvalue) => {
         settabstate(newvalue);
@@ -24,20 +47,28 @@ export default function Header(props) {
   const modalHandaler = () =>{
     setmodalstate(true);
   }
-
-  const [userLogindetails, setuserLogindetails] = useState({username:'', password:''});
-  const [userRegDetails, setuserRegDetails] = useState({firstname:'', lastname:'',  email:'',  password:'', contactnumbers:'' });
   const [regSucess, setregSucess] = useState("");
 
-  const loginFormHandler = (e) =>{
-      const setvalue = userLogindetails;
-      setvalue[e.target.name] = e.target.value;
-      setuserLogindetails({...setvalue})
-  } 
-  
   //login functions 
+  const loginemaiHandaler = (e) =>{
+    setloginemail(e.target.value);
+  }
+  const logionpswhandaler = (e) =>{
+    setloginpass(e.target.value);
+  }
+
   const  onLoginFormSubmit = async (e) => {
-  const authcode = window.btoa(`${userLogindetails.username}:${userLogindetails.password}`);
+
+    loginemail === "" ? setreqloginemail("dispBlock") : setreqloginemail("dispNone");
+    loginpass === "" ? setreqloginpass("dispBlock") : setreqloginpass("dispNone");
+
+    if (
+      loginemail === "" ||
+      loginpass === "" 
+    ) {
+      return;
+    }
+  const authcode = window.btoa(`${loginemail}:${loginpass}`);
      try {
           const loginresponse = await fetch(props.baseUrl+ 'auth/login', {
               method: 'POST',
@@ -90,20 +121,57 @@ export default function Header(props) {
         };
     // Registration Function
 
-    const regFormHandler = (e) =>{
-      const setregvalue = userRegDetails;
-      setregvalue[e.target.name] = e.target.value;
-      setuserRegDetails({...setregvalue})
-  } 
+    const regfnHandaler = (e) =>{
+      setuserfname(e.target.value);
+    }
+    
+    const reglnHandaler = (e) =>{
+      setuserlname(e.target.value);
+    }
+    
+    const regemailHandaler = (e) =>{
+      setuseremail(e.target.value);
+    }
 
+    const regpswhandaler = (e) =>{
+      setuserpsw(e.target.value);
+    }
+    
+    const regphHandaler = (e) =>{
+      setuserph(e.target.value);
+    }
+
+   
     
     const  onRegFormSubmit = async (e) => {
+      userfname === "" ? setrequserfname("dispBlock") : setrequserfname("dispNone");
+      userlname === "" ? setrequserlname("dispBlock") : setrequserlname("dispNone");
+      useremail === "" ? setrequseremail("dispBlock") : setrequseremail("dispNone");
+      userpsw === "" ? setrequserpsw("dispBlock") : setrequserpsw("dispNone");
+      userph === "" ? setrequserph("dispBlock") : setrequserph("dispNone");
+  
+      if (
+        userfname === "" ||
+        userlname === "" ||
+        useremail === "" ||
+        userpsw === "" ||
+        userph === ""
+      ) {
+        return;
+      }
+
+      setuserfname("");
+      setuserlname("");
+      setuseremail("");
+      setuserpsw("");
+      setuserph("");
+      
       const params = {
-        email_address: userRegDetails.email,
-        first_name: userRegDetails.firstname,
-        last_name: userRegDetails.lastname,
-        mobile_number: userRegDetails.contactnumbers,
-        password: userRegDetails.password
+        email_address: useremail,
+        first_name: userfname,
+        last_name: userlname,
+        mobile_number:userph,
+        password: userpsw
       }
          try {
               const signupresponse = await fetch(props.baseUrl+ 'signup', {
@@ -184,104 +252,129 @@ export default function Header(props) {
           {tabstate === 0 && 
 
           //Logoin Form 
-          <div>
- 
-        <ValidatorForm className="logoin-form" onSubmit={onLoginFormSubmit}>
-           <TextValidator
-              id="username"
-              label="Username*"
-              type="text"
-              name="username"
-              onChange={loginFormHandler}
-              value={userLogindetails.username}
-              validators={['required']}
-              errorMessages={['required']}
-          >
-          </TextValidator>
-           <br />
-          <TextValidator
-              id="password"
-              type="passwoard"
-              name="password"
-              label="Password*"
-              onChange={loginFormHandler}
-              value={userLogindetails.password}
-              validators={['required']}
-              errorMessages={['required']}
-          ></TextValidator>
-             <br /><br /><br />
-           <Button type="submit" variant="contained" color="primary" className='loginlogoutbtn'>LOGIN</Button>
-       </ValidatorForm>
+          <div className="form_container">
+            <FormGroup  className="logoin-form">
+            <FormControl  className="formControl">
+              <InputLabel htmlFor="tickets">
+              Username
+              </InputLabel>
+              <Input
+                id="loginemail"
+                type="text"
+                value={loginemail}
+                onChange={loginemaiHandaler}
+              />
+            
+              <FormHelperText className={reqloginemail}>
+                <span className="red">Required</span>
+              </FormHelperText>
+            </FormControl> 
+            <br />
+            <FormControl  className="formControl">
+              <InputLabel htmlFor="tickets">
+              Password 
+              </InputLabel>
+              <Input
+                id="loginpass"
+                value={loginpass}
+                type='password'
+                onChange={logionpswhandaler}
+              />
+              <FormHelperText className={reqloginpass}>
+                <span className="red">Required</span>
+              </FormHelperText>
+            </FormControl> 
+            </FormGroup>
+            <br />  <br />
+            <Button  variant="contained" color="primary" onClick={onLoginFormSubmit} className='loginlogoutbtn'>LOGIN</Button>
+            
           </div>
           }
           {tabstate === 1 && 
 
           //Regitration Form
-          <div>
-          <ValidatorForm className="registration-form" onSubmit={onRegFormSubmit}>
-                <TextValidator
-                    id="firstname"
-                    label="First Name*"
-                    type="text"
-                    name="firstname"
-                    onChange={regFormHandler}
-                    value={userRegDetails.firstname}
-                    validators={['required']}
-                    errorMessages={['required']}
-                >
-                </TextValidator>
-                <br />
-                <TextValidator
-                        id="lastname"
-                        label="Last Name*"
-                        type="text"
-                        name="lastname"
-                        onChange={regFormHandler}
-                        value={userRegDetails.lastname}
-                        validators={['required']}
-                        errorMessages={['required']}
-                    >
-                </TextValidator>
-                <br />
-                <TextValidator
-                        id="email"
-                        label="Email*"
-                        type="email"
-                        name="email"
-                        onChange={regFormHandler}
-                        value={userRegDetails.email}
-                        validators={['required']}
-                        errorMessages={['required']}
-                    >
-                </TextValidator>
-                <br />
-                <TextValidator
-                        id="password"
-                        type="passwoard"
-                        name="password"
-                        label="Password*"
-                        onChange={regFormHandler}
-                        value={userRegDetails.password}
-                        validators={['required']}
-                        errorMessages={['required']}
-                ></TextValidator>
-                <br />
-                <TextValidator
-                        id="contactnumbers"
-                        label="Contact No*"
-                        type="text"
-                        name="contactnumbers"
-                        onChange={regFormHandler}
-                        value={userRegDetails.contactnumbers}
-                        validators={['required']}
-                        errorMessages={['required']}
-                >
-                </TextValidator>
+          <div className="form_container">
+           <FormGroup  className="registration-form">
+            <FormControl  className="formControl">
+              <InputLabel htmlFor="tickets">
+              First Name
+              </InputLabel>
+              <Input
+                id="userfname"
+                type="text"
+                value={userfname}
+                onChange={regfnHandaler}
+              />
+              <FormHelperText className={requserfname}>
+                <span className="red">Required</span>
+              </FormHelperText>
+            </FormControl> 
+            <br />
+            <FormControl  className="formControl">
+              <InputLabel htmlFor="tickets">
+              Last Name
+              </InputLabel>
+              <Input
+                id="userlname"
+                type="text"
+                value={userlname}
+                onChange={reglnHandaler}
+              />
+            
+              <FormHelperText className={requserlname}>
+                <span className="red">Required</span>
+              </FormHelperText>
+            </FormControl> 
+            <br />
+            <FormControl  className="formControl">
+              <InputLabel htmlFor="tickets">
+                Email
+              </InputLabel>
+              <Input
+                id="useremail"
+                type="email"
+                value={useremail}
+                onChange={regemailHandaler}
+              />
+              <FormHelperText className={requseremail}>
+                <span className="red">Required</span>
+              </FormHelperText>
+            </FormControl> 
+            <br />
+            <FormControl  className="formControl">
+              <InputLabel htmlFor="tickets">
+              Password 
+              </InputLabel>
+              <Input
+                id="userpsw"
+                value={userpsw}
+                type='passwoard'
+                onChange={regpswhandaler}
+              />
+              <FormHelperText className={requserpsw}>
+                <span className="red">Required</span>
+              </FormHelperText>
+            </FormControl> 
+            <br />
+            <FormControl  className="formControl">
+              <InputLabel htmlFor="tickets">
+              Contact Numbers
+              </InputLabel>
+              <Input
+                id="movieTitle"
+                type="text"
+                value={userph}
+                onChange={regphHandaler}
+              />
+              <FormHelperText className={requserph}>
+                <span className="red">Required</span>
+              </FormHelperText>
+            </FormControl> 
+            </FormGroup>
           <br/>
           <p>{regSucess}</p>
           <br />
-          <Button type="submit" variant="contained" color="primary" className='loginlogoutbtn'>REGISTER</Button>
-        </ValidatorForm>
+          <Button type="submit" variant="contained" color="primary" onClick={onRegFormSubmit} className='loginlogoutbtn'>REGISTER</Button>
              </div>
              }
           </DialogContent>

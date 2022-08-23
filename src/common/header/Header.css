@@ -23,3 +23,10 @@
     margin-right: 20px !important;
 }
 
+.form_container{
+    text-align: center;
+}
+.logoin-form,
+.registration-form{
+    align-items: center;
+}
