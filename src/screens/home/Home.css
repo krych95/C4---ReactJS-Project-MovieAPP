@@ -38,3 +38,45 @@
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 100px #808080; 
 }
+
+.logoin-form,
+.registration-form{
+    text-align: center;
+}
+
+.releasedMovies .containerMain{
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+
+}
+
+.releasedMovies .move_list{
+   flex:76;
+   margin: 16px;
+   display: flex;
+   flex-wrap: wrap;
+   overflow: hidden;
+   background-color: #fff;
+}
+
+.releasedMovies .movie_form{
+    flex:24;
+    margin: 16px;
+}
+.releasedMovies .gridlist li{
+    height: 350px !important;
+    overflow: hidden;
+    padding-right: 20px !important;
+    padding-bottom: 25px !important;
+    width: 300px !important;
+}
+.filter_button{
+    width: 100%;
+    padding: 10px !important;
+}
+.movie_form .formControl,
+.movie_form input,
+.movie_form select{
+    width: 100% !important;
+}

@@ -7,10 +7,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import {ValidatorForm,TextValidator} from 'react-material-ui-form-validator'
-
+import { useHistory } from "react-router-dom";
 
  
-export default function Header({baseUrl, buutonSingle}) {
+export default function Header(props) {
+
+  const history = useHistory();
+
   const [modalstate, setmodalstate] = useState(false);
   const [isLoggedIn,setisLoggedIn] = useState(false);
   const [tabstate, settabstate] = useState(0);
@@ -36,7 +39,7 @@ export default function Header({baseUrl, buutonSingle}) {
   const  onLoginFormSubmit = async (e) => {
   const authcode = window.btoa(`${userLogindetails.username}:${userLogindetails.password}`);
      try {
-          const loginresponse = await fetch(baseUrl+ 'auth/login', {
+          const loginresponse = await fetch(props.baseUrl+ 'auth/login', {
               method: 'POST',
               headers: {
                   "Accept": "application/json;charset=UTF-8",
@@ -65,7 +68,7 @@ export default function Header({baseUrl, buutonSingle}) {
     const logouthandaler = async (e) =>{
       const userauthcode = sessionStorage.getItem("access-token");
          try {
-              const logoutresponse = await fetch(baseUrl+ 'auth/logout', {
+              const logoutresponse = await fetch(props.baseUrl+ 'auth/logout', {
                   method: 'POST',
                   headers: {
                       "Accept": "application/json;charset=UTF-8",
@@ -103,7 +106,7 @@ export default function Header({baseUrl, buutonSingle}) {
         password: userRegDetails.password
       }
          try {
-              const signupresponse = await fetch(baseUrl+ 'signup', {
+              const signupresponse = await fetch(props.baseUrl+ 'signup', {
                   method: 'POST',
                   headers: {
                       "Accept": "application/json;charset=UTF-8",
@@ -128,7 +131,7 @@ export default function Header({baseUrl, buutonSingle}) {
                }
         };
     const renderbookshow = () => {
-   
+      history.push(`/bookshow/${props.movieid}`)
     }
 
 
@@ -143,7 +146,7 @@ export default function Header({baseUrl, buutonSingle}) {
                {
                isLoggedIn ? (
                <div>
-                { buutonSingle ? (
+                { props.buutonSingle ? (
                 <div>          
                <Button variant="contained" color="default" className='loginlogoutbtn'  onClick={logouthandaler}>LOGOUT</Button>
                </div>) : (  
@@ -156,7 +159,7 @@ export default function Header({baseUrl, buutonSingle}) {
                </div>
                ) : (
                 <div>
-                   { buutonSingle ? (  
+                   { props.buutonSingle ? (  
                     <div>          
              <Button variant="contained" color="default" className='loginlogoutbtn'  onClick={modalHandaler}>LOGIN</Button>
               </div>
