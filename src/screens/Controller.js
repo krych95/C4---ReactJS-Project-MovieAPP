@@ -1,5 +1,6 @@
 import React from "react";
 import Home from "../screens/home/Home";
+import  "../common/common.css";
 import Details from "../screens/details/Details";
 import {Route, MemoryRouter } from "react-router-dom";
 import BookShow from "../screens/bookshow/BookShow";

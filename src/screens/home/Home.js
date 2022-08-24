@@ -99,7 +99,7 @@ const [formDate, setformDate] = useState('');
  
   }, []);
 
-  //fetching denres
+  //fetching genres
 
   useEffect(()=>{
 
@@ -120,13 +120,6 @@ const [formDate, setformDate] = useState('');
 
   }, []);
 
-// date formating
-  function formatDate (input) {
-    var datePart = input.match(/\d+/g),
-    year = datePart[0],
-    month = datePart[1], day = datePart[2];
-    return day+'-'+month+'-'+year;
-  }
 
      // filter aCtion
      const movieTitleHandaler = (e) =>{
@@ -157,7 +150,7 @@ const [formDate, setformDate] = useState('');
            rm => rm.title === movieTitle &&
            rm.genres.includes(movieGenres) &&
            rm.artists.some(art => art.id === movieArtists) === true &&
-           formatDate(rm.release_date) >= todate && formatDate(rm.release_date) <= formDate 
+         new Date(rm.release_date).getTime() >=  new Date(todate).getTime() && new Date(rm.release_date).getTime() <= new Date(formDate).getTime()  
       );
       setreleasedmovies(filterdata);
      }
@@ -166,7 +159,7 @@ const [formDate, setformDate] = useState('');
             rm => rm.title === movieTitle &&
             rm.genres.includes(movieGenres) &&
             rm.artists.some(art => art.id === movieArtists) === true &&
-            formatDate(rm.release_date) >= todate
+            new Date(rm.release_date).getTime() >=  new Date(todate).getTime()
        );
        setreleasedmovies(filterdata);
       }
@@ -186,6 +179,12 @@ const [formDate, setformDate] = useState('');
            );
            setreleasedmovies(filterdata);
           }
+          else if( todate !== '' && formDate !== '' ){
+            const filterdata = releasedmovies.filter(
+                  rm =>  new Date(rm.release_date).getTime() >=  new Date(todate).getTime() && new Date(rm.release_date).getTime() <= new Date(formDate).getTime()
+             );
+             setreleasedmovies(filterdata);
+            }
           else if(movieTitle !== ''){
             const filterdata = releasedmovies.filter(
                   rm => rm.title === movieTitle);
@@ -208,7 +207,7 @@ const [formDate, setformDate] = useState('');
                 else if( todate !== '' ){
                   const filterdata = releasedmovies.filter(
                  
-                    rm =>   formatDate(rm.release_date) >= todate 
+                    rm =>   new Date(rm.release_date).getTime()  >=  new Date(todate).getTime()
                    );
                    setreleasedmovies(filterdata);
                   }
@@ -216,7 +215,7 @@ const [formDate, setformDate] = useState('');
               
                     else if(formDate !== '' ){
                       const filterdata = releasedmovies.filter(
-                        rm => formatDate(rm.release_date) <= formDate 
+                        rm => new Date(rm.release_date).getTime() <= new Date(formDate).getTime()  
                        );
                        setreleasedmovies(filterdata);
                       }   
@@ -227,6 +226,7 @@ const [formDate, setformDate] = useState('');
     return (
       <div>
          <Header baseUrl={props.baseUrl} buutonSingle={1} movieid=""/>
+         {/* upcoming movies */}
          <div className="upcomimgMovies">
          <div className='headerBox'>Upcoming Movies</div>
          <div className=" upcomingmovie container">
@@ -243,6 +243,7 @@ const [formDate, setformDate] = useState('');
          </GridList>  
          </div> 
        </div>
+       {/*  released movies   */}
        <div className="releasedMovies">
         <div className="containerMain">
           <div className="move_list">
@@ -255,7 +256,7 @@ const [formDate, setformDate] = useState('');
               title={mv.title}
               className="title_bar"
               subtitle={<Typography color="inherit">
-                Release Date:{formatDate(mv.release_date)}
+                Release Date:{new Date(mv.release_date).toDateString()}
               </Typography>}
             />
            </GridListTile>
@@ -263,6 +264,7 @@ const [formDate, setformDate] = useState('');
          })}
          </GridList>  
           </div>
+             {/* filter form */}
           <div className="movie_form">
           <Card className="cardStyle">
           <CardContent>
@@ -271,7 +273,7 @@ const [formDate, setformDate] = useState('');
             </Typography>
             <br />
               <FormControl  className="formControl">
-              <InputLabel htmlFor="tickets">
+              <InputLabel htmlFor="movieTitle">
               Movie Name 
               </InputLabel>
               <Input
@@ -321,7 +323,7 @@ const [formDate, setformDate] = useState('');
             <br />
             <br />
             <FormControl  className="formControl">
-              <InputLabel htmlFor="showDate">Release Date Start</InputLabel>
+              <InputLabel htmlFor="releasetodate">Release Date Start</InputLabel>
               <Input
                 id="releasetodate"
                 value={todate}
@@ -331,7 +333,7 @@ const [formDate, setformDate] = useState('');
             <br />
             <br />
             <FormControl  className="formControl">
-              <InputLabel htmlFor="showendDate">Release Date End</InputLabel>
+              <InputLabel htmlFor="releaseformdate">Release Date End</InputLabel>
               <Input
                 id="releaseformdate"
                 value={formDate}

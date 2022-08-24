@@ -16,7 +16,9 @@ import Modal from '@material-ui/core/Modal';
 
 export default function Header(props) {
 
+  // states and routers
   const history = useHistory();
+
   const [modalstate, setmodalstate] = useState(false);
   const [isLoggedIn,setisLoggedIn] = useState(false);
   const [tabstate, settabstate] = useState(0);
@@ -42,6 +44,7 @@ export default function Header(props) {
   const [requserpsw, setrequserpsw] = useState("dispNone");
   const [requserph, setrequserph] = useState("dispNone");
 
+  // tab & modal 
   const tabhandeler = (event, newvalue) => {
         settabstate(newvalue);
       }
@@ -207,6 +210,7 @@ export default function Header(props) {
 
   return (
     <div>
+      {/* logo & buttons */ }
         <div className='movieAppheader'>
             <div className="applogo">
                 <img className='applogoImg' src={logo} alt="applogo" />
@@ -243,7 +247,7 @@ export default function Header(props) {
               }
           </div>
         </div>
-
+          {/* Forms */ }
         <Modal className="log-regModal" open={modalstate} aria-labelledby="login-register">
         <Card className="logregcardStyle">
           <CardContent>
@@ -252,9 +256,8 @@ export default function Header(props) {
                   <Tab label="LOGIN"   />
                   <Tab label="REGISTER"  />
               </Tabs>
+                   {/* Login */ }
           {tabstate === 0 && 
-
-          //Logoin Form 
           <div className="form_container">
             <FormGroup  className="logoin-form">
             <FormControl  className="formControl">
@@ -293,13 +296,12 @@ export default function Header(props) {
             
           </div>
           }
+          {/* Registration */ }
           {tabstate === 1 && 
-
-          //Regitration Form
           <div className="form_container">
            <FormGroup  className="registration-form">
             <FormControl  className="formControl">
-              <InputLabel htmlFor="tickets">
+              <InputLabel htmlFor="userfname">
               First Name
               </InputLabel>
               <Input
@@ -314,7 +316,7 @@ export default function Header(props) {
             </FormControl> 
             <br />
             <FormControl  className="formControl">
-              <InputLabel htmlFor="tickets">
+              <InputLabel htmlFor="userlname">
               Last Name
               </InputLabel>
               <Input
@@ -330,7 +332,7 @@ export default function Header(props) {
             </FormControl> 
             <br />
             <FormControl  className="formControl">
-              <InputLabel htmlFor="tickets">
+              <InputLabel htmlFor="useremail">
                 Email
               </InputLabel>
               <Input
@@ -345,7 +347,7 @@ export default function Header(props) {
             </FormControl> 
             <br />
             <FormControl  className="formControl">
-              <InputLabel htmlFor="tickets">
+              <InputLabel htmlFor="userpsw">
               Password 
               </InputLabel>
               <Input
@@ -360,11 +362,11 @@ export default function Header(props) {
             </FormControl> 
             <br />
             <FormControl  className="formControl">
-              <InputLabel htmlFor="tickets">
+              <InputLabel htmlFor="userphone">
               Contact Numbers
               </InputLabel>
               <Input
-                id="movieTitle"
+                id="userphone"
                 type="text"
                 value={userph}
                 onChange={regphHandaler}

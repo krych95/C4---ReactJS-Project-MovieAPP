@@ -9,6 +9,9 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 export default function Details(props) {
+
+  // sates and routers
+
 const {id}  = props.match.params
 
 const [movieDetails, setmovieDetails] = useState({});
@@ -36,8 +39,8 @@ loadmoviedetails();
 
  }, []);
 
-//console.log(movieDetails);
 
+// filter & conditions for avoid errors
 
 const relasedate = new Date(movieDetails.release_date);
 let movieGense = [];
@@ -49,6 +52,7 @@ let movieArtists = [];
  if(movieDetails.artists !== undefined){
   movieArtists =  movieDetails.artists;
 }
+// youtube API settings 
 const opts = {
    height: '380px',
    width: '100%',
@@ -58,6 +62,7 @@ const opts = {
    },
  };
 
+ // crete video id form sates
  var videoid = "";
 if(movieDetails.trailer_url !== undefined){
  var url_string = movieDetails.trailer_url; 
@@ -77,6 +82,7 @@ const _onReady = (e) => {
     return (
        <div>
            <Header baseUrl={props.baseUrl} buutonSingle={0} movieid={id} />
+              {/* button */}
            <Typography className="backtohome">
           <Link to={"/"}>
             &#60; Back to Home
@@ -84,10 +90,12 @@ const _onReady = (e) => {
         </Typography>
         <div className="movieDetails">
          <div className="container">
+             {/* nmovie postrer */}
             <div className="movie_poster">
               <img src={movieDetails.poster_url} alt={movieDetails.title} height="auto" width="90%"/>
             </div>
             <div className="movie_details">
+             {/* movie deatils with trailer */}
             <Typography component="h2" variant="headline">
             {movieDetails.title}
            </Typography>
@@ -139,6 +147,7 @@ const _onReady = (e) => {
      <YouTube videoId={videoid} opts={opts} onReady={_onReady} />
           </div>
             </div>
+      {/* Movie ratings & artists info */}
             <div className="ratings_artists">
             <Typography variant="body2" className="info">
             Rate this movie:
@@ -150,6 +159,7 @@ const _onReady = (e) => {
               <StarBorderIcon  style={ratingsval <= ratings ? { color: "#fff100" }:{ color: "#151515" } }/>
             </label>
             })}
+   
              <div className="artists">
              <Typography variant="body2" className="info">
              Artists:
