@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import './Header.css';
 import logo from '../../assets/logo.svg';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { useHistory } from "react-router-dom";
@@ -12,6 +10,9 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Modal from '@material-ui/core/Modal';
 
 export default function Header(props) {
 
@@ -243,8 +244,10 @@ export default function Header(props) {
           </div>
         </div>
 
-        <Dialog open={modalstate} aria-labelledby="form-dialog-title">
-          <DialogContent>
+        <Modal className="log-regModal" open={modalstate} aria-labelledby="login-register">
+        <Card className="logregcardStyle">
+          <CardContent>
+      <div className="lohin-reg-modals" >
               <Tabs value={tabstate} onChange={tabhandeler} centered>
                   <Tab label="LOGIN"   />
                   <Tab label="REGISTER"  />
@@ -348,7 +351,7 @@ export default function Header(props) {
               <Input
                 id="userpsw"
                 value={userpsw}
-                type='passwoard'
+                type='password'
                 onChange={regpswhandaler}
               />
               <FormHelperText className={requserpsw}>
@@ -377,10 +380,10 @@ export default function Header(props) {
           <Button type="submit" variant="contained" color="primary" onClick={onRegFormSubmit} className='loginlogoutbtn'>REGISTER</Button>
              </div>
              }
-          </DialogContent>
-
-        </Dialog>
-
+             </div>
+          </CardContent>
+             </Card>
+          </Modal >
     </div>
   )
 } 

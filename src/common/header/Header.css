@@ -30,3 +30,15 @@
 .registration-form{
     align-items: center;
 }
+.logregcardStyle {
+    width: 300px;
+    padding: 32px 50px 32px 50px;
+    margin: auto;
+    text-align: left;
+    position: relative;
+    
+}
+.log-regModal{
+    display: flex;
+    align-items: center;
+}

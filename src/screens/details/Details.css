@@ -19,6 +19,7 @@ flex:20;
 
 .movieDetails .movie_details{
 flex:60;
+padding-bottom: 50px;
 }
 .movieDetails .ratings_artists{
 flex:20;
@@ -27,7 +28,33 @@ padding-left: 30px;
 .text-inline{
     display: flex;
     text-align: center;
+    align-items: flex-start;
+
+}
+.text-inline .info{
+    font-weight: 600;
+    position: relative;
+    top:-3px;
+    margin-right: 4px;
+}
+.text-inline.plot{
+    margin-top: 16px;
+}
+.text-inline .storyline{
+    text-align: left;
+}
+.trailer{
+    margin-top: 16px;
 }
 .star_radio{
     display: none;
+}
+.artists .info{
+    font-weight: 600px;
+    margin: 16px auto;
+}
+
+.artists .gridlist li,
+.artists .gridlist li img{
+    height: 254px !important;
 }

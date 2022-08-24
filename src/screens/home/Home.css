@@ -69,6 +69,11 @@ justify-content: space-between;
     overflow: hidden;
     padding-right: 20px !important;
     padding-bottom: 25px !important;
+    width: 100% !important;
+}
+.releasedMovies .gridlist a{
+    padding-right: 20px !important;
+    padding-bottom: 25px !important;
     width: 300px !important;
 }
 .filter_button{
@@ -79,4 +84,8 @@ justify-content: space-between;
 .movie_form input,
 .movie_form select{
     width: 100% !important;
+}
+.genres_selet label svg,
+.art_selet label svg{
+    display: none;
 }

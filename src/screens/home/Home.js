@@ -23,17 +23,19 @@ export default function Home(props) {
   const [releasedmovies, setreleasedmovies] = useState([]); 
   const [moviesArtists, setmoviesArtists] = useState([]); 
   const [moviesGenres, setmoviesGenres] = useState([]); 
+  
 
 
 // Filter Sates
+const [primaryfilter, setprimaryfilter] = useState('');
+const [movieTitle, setmovieTitle] = useState('');
+const [movieGenres, setmovieGenres] = useState('');
+const [movieArtists, setmovieArtists] = useState('');
+const [todate, settodate] = useState('');
+const [formDate, setformDate] = useState('');
 
-const [movieTitle, setmovieTitle] = useState('initiated');
-const [movieGenres, setmovieGenres] = useState('initiated');
-const [movieArtists, setmovieArtists] = useState('initiated');
-const [todate, settodate] = useState('initiated');
-const [formDate, setformDate] = useState('initiated');
-
-
+ 
+// fetching upcomingmovies
   useEffect(()=>{
 
     const loaupdmovie = async (e) => {
@@ -53,6 +55,7 @@ const [formDate, setformDate] = useState('initiated');
  
   }, []);
 
+  // fetching released movies
   useEffect(()=>{
 
     const loadmovie = async (e) => {
@@ -67,16 +70,19 @@ const [formDate, setformDate] = useState('initiated');
           const  responseResult = await response.json();
           const getresmovies = responseResult.movies;
           setreleasedmovies([...getresmovies]);
+          setprimaryfilter([...getresmovies]);
  
  };
  loadmovie();
  
   }, []);
 
+
+ // fetchichgs artists
   useEffect(()=>{
 
     const loadmoviesArtists = async (e) => {
-      const response = await fetch(props.baseUrl+ 'artists', {
+      const response = await fetch(props.baseUrl+ 'artists?page=1&limit=1000', {
            method: 'GET',
            headers: {
                "Accept": "application/json;charset=UTF-8",
@@ -92,6 +98,8 @@ const [formDate, setformDate] = useState('initiated');
  loadmoviesArtists();
  
   }, []);
+
+  //fetching denres
 
   useEffect(()=>{
 
@@ -112,11 +120,11 @@ const [formDate, setformDate] = useState('initiated');
 
   }, []);
 
+// date formating
   function formatDate (input) {
     var datePart = input.match(/\d+/g),
     year = datePart[0],
     month = datePart[1], day = datePart[2];
-  
     return day+'-'+month+'-'+year;
   }
 
@@ -132,9 +140,6 @@ const [formDate, setformDate] = useState('initiated');
     }
     const todateHandaler = (e) =>{
       let gettodate = e.target.value;
-      // const date = gettodate;
-      // const [day, month, year] = date.split('/');
-      // const result = [year, month, day].join('/');
       settodate(gettodate);
     }
 
@@ -143,10 +148,12 @@ const [formDate, setformDate] = useState('initiated');
       setformDate(getformdate);
     }
 
-     // submit button
+     // filter submit button
      const findshow = () =>{
-      if(movieTitle !== 'initiated' && movieGenres !== 'initiated' && movieArtists !== 'initiated' && todate !== 'initiated'  && formDate !== 'initiated' ){
-     const filterdata = releasedmovies.filter(
+      setreleasedmovies(primaryfilter);
+
+      if(movieTitle !== '' && movieGenres !== '' && movieArtists !== '' && todate !== ''  && formDate !== '' ){
+           const filterdata = releasedmovies.filter(
            rm => rm.title === movieTitle &&
            rm.genres.includes(movieGenres) &&
            rm.artists.some(art => art.id === movieArtists) === true &&
@@ -154,7 +161,7 @@ const [formDate, setformDate] = useState('initiated');
       );
       setreleasedmovies(filterdata);
      }
-     else if(movieTitle !== 'initiated' && movieGenres !== 'initiated' && movieArtists !== 'initiated' && todate !== 'initiated'){
+     else if(movieTitle !== '' && movieGenres !== '' && movieArtists !== '' && todate !== ''){
       const filterdata = releasedmovies.filter(
             rm => rm.title === movieTitle &&
             rm.genres.includes(movieGenres) &&
@@ -163,7 +170,7 @@ const [formDate, setformDate] = useState('initiated');
        );
        setreleasedmovies(filterdata);
       }
-      else if(movieTitle !== 'initiated' && movieGenres !== 'initiated' && movieArtists !== 'initiated'){
+      else if(movieTitle !== '' && movieGenres !== '' && movieArtists !== ''){
         const filterdata = releasedmovies.filter(
               rm => rm.title === movieTitle &&
               rm.genres.includes(movieGenres) &&
@@ -172,25 +179,25 @@ const [formDate, setformDate] = useState('initiated');
          );
          setreleasedmovies(filterdata);
         }
-        else if(movieTitle !== 'initiated' && movieGenres !== 'initiated'){
+        else if(movieTitle !== '' && movieGenres !== ''){
           const filterdata = releasedmovies.filter(
                 rm => rm.title === movieTitle &&
                 rm.genres.includes(movieGenres) 
            );
            setreleasedmovies(filterdata);
           }
-          else if(movieTitle !== 'initiated'){
+          else if(movieTitle !== ''){
             const filterdata = releasedmovies.filter(
                   rm => rm.title === movieTitle);
              setreleasedmovies(filterdata);
             }
 
-            else if(movieGenres !== 'initiated' ){
+            else if(movieGenres !== '' ){
               const filterdata =  releasedmovies.filter( rm => rm.genres.includes(movieGenres));
                setreleasedmovies(filterdata);
               }
 
-              else  if( movieArtists !== 'initiated' ){
+              else  if( movieArtists !== '' ){
                 const filterdata = releasedmovies.filter( rm => 
               
                 rm.artists.some(art => art.id === movieArtists) === true 
@@ -198,7 +205,7 @@ const [formDate, setformDate] = useState('initiated');
                  setreleasedmovies(filterdata);
                 }
 
-                else if( todate !== 'initiated' ){
+                else if( todate !== '' ){
                   const filterdata = releasedmovies.filter(
                  
                     rm =>   formatDate(rm.release_date) >= todate 
@@ -207,14 +214,15 @@ const [formDate, setformDate] = useState('initiated');
                   }
 
               
-                    else if(formDate !== 'initiated' ){
+                    else if(formDate !== '' ){
                       const filterdata = releasedmovies.filter(
                         rm => formatDate(rm.release_date) <= formDate 
                        );
                        setreleasedmovies(filterdata);
-                      }
-         
-     }
+                      }   
+                
+             }
+
 
     return (
       <div>
@@ -222,9 +230,6 @@ const [formDate, setformDate] = useState('initiated');
          <div className="upcomimgMovies">
          <div className='headerBox'>Upcoming Movies</div>
          <div className=" upcomingmovie container">
-          {/* {  releasedmovies.artists.map(rg => {
-            return rg.first_name;
-          })} */}
          <GridList cellHeight={250} className="gridlist" cols={6}>
          {upcomingmovies.map(mv =>{
             return<GridListTile key={mv.id}>
@@ -265,7 +270,7 @@ const [formDate, setformDate] = useState('initiated');
             FIND MOVIES BY:
             </Typography>
             <br />
-     <FormControl  className="formControl">
+              <FormControl  className="formControl">
               <InputLabel htmlFor="tickets">
               Movie Name 
               </InputLabel>
@@ -279,7 +284,7 @@ const [formDate, setformDate] = useState('initiated');
             <br />
             <FormControl  className="formControl">
               <InputLabel htmlFor="theatre">Genres</InputLabel>
-              <Select  value={movieGenres} onChange={movieGenreHandaler}>
+              <Select  value={movieGenres} onChange={movieGenreHandaler}  className="genres_selet">
                 {moviesGenres.map((gn) => (
                   <MenuItem  key={"gene" + gn.id}  value={gn.genre}>
                         <FormControlLabel
@@ -298,7 +303,7 @@ const [formDate, setformDate] = useState('initiated');
             <br />
             <FormControl  className="formControl">
               <InputLabel htmlFor="language">Artists</InputLabel>
-              <Select value={movieArtists} onChange={movieArtistsHandaler}>
+              <Select value={movieArtists} onChange={movieArtistsHandaler} className="art_selet">
                 {moviesArtists.map((ma) => (
                   <MenuItem   key={"artists" + ma.id} value={ma.id}>
                   <FormControlLabel
@@ -326,7 +331,7 @@ const [formDate, setformDate] = useState('initiated');
             <br />
             <br />
             <FormControl  className="formControl">
-              <InputLabel htmlFor="showDate">Release Date Start</InputLabel>
+              <InputLabel htmlFor="showendDate">Release Date End</InputLabel>
               <Input
                 id="releaseformdate"
                 value={formDate}
@@ -348,9 +353,6 @@ const [formDate, setformDate] = useState('initiated');
           </div>
         </div>
        </div>
-
-
-
        </div>
    
     )
